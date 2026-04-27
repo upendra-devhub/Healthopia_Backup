@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Healthopia | Wellness Community</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/base.css">
+</head>
+<body class="app-shell-body">
+  <div id="toast-stack" class="toast-stack" aria-live="polite"></div>
+  <div id="onboarding-root"></div>
+
+  <header class="topbar">
+    <div class="left">
+      <div class="topbar__brand-group">
+        <a href="/" class="brand" data-route="/">
+          <img class="brand__logo" src="/images/healthopia_logo_nobg.png" alt="Healthopia logo">
+          <span class="brand__text">Healthopia</span>
+        </a>
+        <label class="searchbar">
+          <span class="material-symbols-outlined">search</span>
+          <input id="global-search" type="search" placeholder="Search communities, experts..." autocomplete="off">
+        </label>
+      </div>
+    </div>
+    <div class="right">
+      
+      <div class="topbar__actions">
+        <button
+          id="create-post-trigger"
+          class="icon-button topbar__create-button"
+          type="button"
+          aria-label="Create post"
+          aria-haspopup="dialog"
+          aria-controls="post-modal"
+          data-action="open-post-modal">
+          <span class="material-symbols-outlined">add</span>
+        </button>
+        <button id="theme-toggle-button" class="icon-button topbar__theme-button" type="button" aria-label="Switch to dark mode">
+          <span id="theme-toggle-icon" class="material-symbols-outlined">dark_mode</span>
+        </button>
+  
+        <div class="menu-shell">
+          <button id="profile-menu-button" class="avatar-button" type="button" aria-label="Open profile menu" aria-expanded="false" aria-controls="profile-menu">
+            <span id="header-avatar"></span>
+          </button>
+  
+          <div id="profile-menu" class="dropdown-menu profile-menu" aria-hidden="true"></div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="app-shell">
+    <aside class="sidebar sidebar--left">
+      <div class="sidebar__section">
+
+      </div>
+
+      <nav class="sidebar-nav">
+        <button class="sidebar-nav__item" data-route="/">
+          <span class="material-symbols-outlined">explore</span>
+          <span>Wellness Feed</span>
+        </button>
+        <button class="sidebar-nav__item" data-route="/health">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-heart-pulse-icon lucide-heart-pulse"><path d="M2 9.5a5.5 5.5 0 0 1 9.591-3.676.56.56 0 0 0 .818 0A5.49 5.49 0 0 1 22 9.5c0 2.29-1.5 4-3 5.5l-5.492 5.313a2 2 0 0 1-3 .019L5 15c-1.5-1.5-3-3.2-3-5.5"/><path d="M3.22 13H9.5l.5-1 2 4.5 2-7 1.5 3.5h5.27"/></svg>
+          <span>Health Pulse</span>
+        </button>
+        <button class="sidebar-nav__item" data-route="/wellness-picks">
+          <span class="material-symbols-outlined">auto_stories</span>
+          <span>Wellness Picks</span>
+        </button>
+        <!-- <button class="sidebar-nav__item" data-action="open-first-community">
+          <span class="material-symbols-outlined">verified</span>
+          <span>Communities</span>
+        </button> -->
+      </nav>
+
+      <div class="sidebar__section sidebar__section--circle">
+        <h3>Your Circle</h3>
+        <ul id="joined-communities-list" class="circle-list"></ul>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <div id="view-root" class="view-root"></div>
+    </main>
+
+    <aside class="sidebar sidebar--right">
+      <section>
+        <h3 class="sidebar-title">
+          <span class="material-symbols-outlined">monitoring</span>
+          <span>Health Tracker</span>
+        </h3>
+        <div id="health-sidebar" class="sidebar-stack"></div>
+      </section>
+              <h3 class="sidebar-title">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user-icon lucide-user"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          <span>Profile at a Glance</span> 
+        </h3>
+      <section id="profile-stats-sidebar" class="stat-panel"></section>
+
+      <section>
+        <h3 class="sidebar-title">
+          <span class="material-symbols-outlined">groups</span>
+          <span>Community Recommendations</span>
+        </h3>
+        <div id="community-recommendations-sidebar" class="sidebar-stack"></div>
+      </section>
+
+      <section id="daily-goals-sidebar-section" class="is-hidden" aria-hidden="true">
+        <h3 class="sidebar-title">
+          <span class="material-symbols-outlined">tune</span>
+          <span>Daily Goals</span>
+        </h3>
+        <div id="daily-goals-sidebar" class="sidebar-stack"></div>
+      </section>
+
+    </aside>
+  </div>
+
+  <nav class="mobile-nav">
+    <button type="button" class="mobile-nav__item" data-route="/">
+      <span class="material-symbols-outlined">home</span>
+      <span>Home</span>
+    </button>
+    <button type="button" class="mobile-nav__item" data-route="/health">
+      <span class="material-symbols-outlined">monitoring</span>
+      <span>Health</span>
+    </button>
+    <button
+      type="button"
+      class="mobile-nav__item mobile-nav__item--primary"
+      data-action="open-post-modal"
+      aria-label="Create post"
+      aria-haspopup="dialog"
+      aria-controls="post-modal">
+      <span class="material-symbols-outlined">add</span>
+    </button>
+    <button type="button" class="mobile-nav__item" data-route="/wellness-picks">
+      <span class="material-symbols-outlined">auto_stories</span>
+      <span>Resources</span>
+    </button>
+    <button type="button" class="mobile-nav__item" data-route="/profile">
+      <span class="material-symbols-outlined">person</span>
+      <span>Profile</span>
+    </button>
+  </nav>
+
+  <div id="post-modal" class="modal-shell is-hidden" aria-hidden="true">
+    <div class="modal-shell__backdrop" data-action="dismiss-post-modal"></div>
+
+    <div id="post-modal-dialog" class="composer-card composer-modal" role="dialog" aria-modal="true" aria-labelledby="post-modal-title" aria-describedby="post-modal-helper">
+      <form id="create-post-form" class="stack-form" enctype="multipart/form-data" novalidate>
+        <div class="composer-modal__header">
+          <div class="composer-modal__heading">
+            <h2 id="post-modal-title">Create post</h2>
+            <p class="muted-copy">Share a grounded update with your community.</p>
+          </div>
+
+          <button class="soft-button" type="button" data-action="dismiss-post-modal">Discard</button>
+        </div>
+
+        <div id="post-modal-message" class="inline-message is-hidden" role="alert"></div>
+
+        <div class="field-grid composer-modal__meta">
+          <label class="field">
+            <span>Community</span>
+            <select id="post-community-input" name="community" required>
+              <option value="">Choose a community</option>
+            </select>
+          </label>
+
+          <label class="field">
+            <span>Tags</span>
+            <input id="post-tags-input" type="text" name="tags" placeholder="e.g. recovery, hydration">
+          </label>
+        </div>
+
+        <label class="field">
+          <span>Title</span>
+          <input id="post-title-input" type="text" name="title" placeholder="Give your update a clear title" required maxlength="120">
+        </label>
+
+        <label class="field">
+          <span>Body</span>
+          <textarea id="post-body-input" class="textarea composer-modal__textarea" name="body" placeholder="Share your wellness journey..." required></textarea>
+        </label>
+
+        <div class="composer-modal__media">
+          <div class="composer-modal__media-actions">
+            <label class="sidebar-chip file-picker" for="post-image-input">
+              <span class="material-symbols-outlined">image</span>
+              <span id="post-image-label">Upload image</span>
+            </label>
+
+            <button id="post-image-remove" class="soft-button is-hidden" type="button" data-action="remove-post-image">Remove image</button>
+          </div>
+
+          <input id="post-image-input" class="is-hidden" type="file" name="image" accept="image/*">
+          <p id="post-image-error" class="helper-text helper-text--error is-hidden"></p>
+
+          <div id="post-image-preview" class="composer-modal__preview is-hidden">
+            <img id="post-image-preview-image" src="" alt="Selected post preview">
+          </div>
+        </div>
+
+        <div class="composer-actions composer-actions--modal">
+          <span id="post-modal-helper" class="helper-text">Your post will appear instantly at the top of the feed.</span>
+          <button id="create-post-submit" class="button-primary" type="submit">Post</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script type="module" src="/js/app.js"></script>
+</body>
+</html>
