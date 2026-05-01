@@ -866,10 +866,12 @@ function renderProfileTabs() {
 function renderWellnessCard(resource) {
   const resourceUrl = String(resource?.url || '').trim();
   const communityTag = escapeHtml(resource?.communityTag || formatCommunityLabel(resource?.category));
+  const categoryLabel = escapeHtml(resource?.category || 'Wellness');
   const sourceLabel = escapeHtml(resource?.source || 'Wellness Source');
   const title = escapeHtml(resource?.title || 'Untitled resource');
   const description = escapeHtml(resource?.description || '');
   const readTime = escapeHtml(resource?.readTime || '');
+  const accentStyles = getAccentVars(resource?.category);
   const actionMarkup = resourceUrl
     ? `
         <a class="soft-button wellness-card__link" href="${escapeHtml(resourceUrl)}" target="_blank" rel="noopener noreferrer">
@@ -885,19 +887,22 @@ function renderWellnessCard(resource) {
       `;
 
   return `
-    <article class="health-card wellness-card">
-      <div class="wellness-card__meta">
+    <article class="health-card wellness-card" style="${accentStyles}">
+      <div class="wellness-card__header">
+        <span class="wellness-card__category-label">${categoryLabel}</span>
+      </div>
+      <div class="wellness-card__copy">
+        <h4>${title}</h4>
+        <p class="wellness-card__description">${description}</p>
+      </div>
+      <div style="padding: 0 20px; display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;">
         <div class="wellness-card__badges">
           <span class="micro-chip">${sourceLabel}</span>
           <span class="micro-chip">${communityTag}</span>
         </div>
         <span class="wellness-card__time">${readTime}</span>
       </div>
-      <div class="wellness-card__copy">
-        <h4>${title}</h4>
-        <p class="wellness-card__description wellness-card__description--expanded">${description}</p>
-      </div>
-      <div class="wellness-card__footer">
+      <div style="padding: 12px 20px 20px 20px;">
         ${actionMarkup}
       </div>
     </article>
@@ -1398,7 +1403,7 @@ function renderPostCard(post, options = {}) {
                   : (community ? escapeHtml(community.communityName) : 'Community')}
               </h3>
               <p class="meta-line">
-                ${escapeHtml(formatRelativeTime(post.updatedAt || post.createdAt))}
+                ${escapeHtml(formatRelativeTime(post.createdAt))}
                 ${author ? `&bull; ${escapeHtml(author.username ? `@${author.username}` : author.name || 'Member')}` : ''}
               </p>
             </div>
@@ -1639,7 +1644,7 @@ function renderPostDetailView() {
         <div>
           <span class="micro-chip">${post.communityId ? escapeHtml(post.communityId.communityName) : 'Community post'}</span>
           <h2>${escapeHtml(post.createdBy?.name || 'Community Member')}</h2>
-          <p class="muted-copy">${escapeHtml(formatRelativeTime(post.updatedAt || post.createdAt))}</p>
+          <p class="muted-copy">${escapeHtml(formatRelativeTime(post.createdAt))}</p>
         </div>
         <button class="soft-button" type="button" data-route="${post.communityId ? `/community/${post.communityId._id}` : '/'}">Back</button>
       </div>

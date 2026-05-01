@@ -37,7 +37,12 @@
 
         <label class="field">
           <span>Password</span>
-          <input type="password" name="password" placeholder="Enter your password" autocomplete="current-password" required>
+          <div class="password-field">
+            <input type="password" name="password" placeholder="Enter your password" autocomplete="current-password" required>
+            <button type="button" class="password-toggle" aria-label="Show password" data-input-name="password">
+              <span class="material-symbols-outlined">visibility</span>
+            </button>
+          </div>
         </label>
 
         <div id="auth-message" class="inline-message is-hidden" role="alert"></div>

@@ -1001,6 +1001,38 @@ a {
   color: var(--tertiary);
 }
 
+.password-field {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.password-field input {
+  padding-right: 48px;
+}
+
+.password-toggle {
+  position: absolute;
+  right: 14px;
+  background: none;
+  border: none;
+  color: var(--muted);
+  cursor: pointer;
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s ease;
+}
+
+.password-toggle:hover {
+  color: var(--text);
+}
+
+.password-toggle:active {
+  color: var(--primary);
+}
+
 .field input,
 .field textarea,
 .field select,
@@ -2540,11 +2572,52 @@ a {
 
 .wellness-picks-list {
   display: grid;
-  gap: 14px;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+@media (max-width: 768px) {
+  .wellness-picks-list {
+    grid-template-columns: 1fr;
+  }
 }
 
 .wellness-card {
-  gap: 16px;
+  gap: 0;
+  padding: 0;
+  background: var(--surface-card);
+  border-radius: var(--radius-card);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: box-shadow 0.3s ease, transform 0.2s ease;
+}
+
+.wellness-card:hover {
+  box-shadow: 0 12px 32px rgba(30, 107, 126, 0.12);
+  transform: translateY(-2px);
+}
+
+.wellness-card__header {
+  padding: 20px;
+  background: var(--accent-bg, var(--surface-soft));
+  border-bottom: 1px solid var(--outline-soft);
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.wellness-card__category-label {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--accent-text, var(--primary));
+  background: transparent;
+  padding: 0;
+  margin: 0;
 }
 
 .wellness-card__meta,
@@ -2558,21 +2631,26 @@ a {
 
 .wellness-card__copy {
   display: grid;
-  gap: 10px;
+  gap: 12px;
+  padding: 20px;
+  flex: 1;
 }
 
 .wellness-card__copy h4 {
   margin: 0;
   font-family: "Manrope", sans-serif;
-  font-size: 1rem;
+  font-size: 1.1rem;
+  font-weight: 700;
   line-height: 1.4;
   letter-spacing: -0.02em;
+  color: var(--text);
 }
 
 .wellness-card__description {
   margin: 0;
   color: var(--muted);
-  line-height: 1.7;
+  line-height: 1.6;
+  font-size: 0.95rem;
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 3;

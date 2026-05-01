@@ -12,7 +12,7 @@ function normalizeCommunityCategory(value = '') {
 }
 
 const getWellnessPicks = asyncHandler(async (req, res) => {
-  const pageSize = 5;
+  const pageSize = 6;
   const user = await User.findById(req.user._id)
     .select('communitiesJoined')
     .populate('communitiesJoined', 'communityName')
