@@ -14,6 +14,8 @@ function sendPage(fileName) {
 
 router.get('/sign-in', redirectIfAuthenticated, sendPage('sign-in.html'));
 router.get('/register', redirectIfAuthenticated, sendPage('register.html'));
+router.get('/forgot-password', redirectIfAuthenticated, sendPage('forgot-password.html'));
+router.get('/reset-password', redirectIfAuthenticated, sendPage('reset-password.html'));
 
 router.get('/', optionalPageAuth, (req, res) => {
   res.sendFile(path.join(publicDir, req.user ? 'app.html' : 'landing.html'));

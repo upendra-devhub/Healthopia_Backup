@@ -2095,6 +2095,23 @@ a {
   font-weight: 700;
 }
 
+.auth-links {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.forgot-password-link {
+  color: var(--primary);
+  font-weight: 700;
+  text-decoration: none;
+  transition: opacity 200ms ease;
+}
+
+.forgot-password-link:hover {
+  opacity: 0.8;
+}
+
 .avatar-picker {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));

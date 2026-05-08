@@ -5,6 +5,7 @@ const { AppError } = require('../utils/errors');
 const { attachAuthCookie, clearAuthCookie } = require('../utils/authTokens');
 const { ensureOptionalString, ensureString, normalizeUsername } = require('../utils/validation');
 const bcrypt = require("bcrypt");
+const crypto = require('crypto');
 
 const AVATAR_FILENAME_PATTERN = /^avatar-[1-9]\.png$/;
 
@@ -120,8 +121,72 @@ const logout = asyncHandler(async (_req, res) => {
   });
 });
 
+const forgotPassword = asyncHandler(async (req, res) => {
+  const email = ensureString(req.body.email, 'Email', { min: 5, max: 254 });
+
+  const user = await User.findOne({ email });
+  if (!user) {
+    // Don't reveal if email exists for security reasons
+    return res.status(200).json({
+      message: 'If an account exists with this email, a password reset link has been sent.'
+    });
+  }
+
+  // Generate reset token
+  const resetToken = crypto.randomBytes(32).toString('hex');
+  const hashedToken = crypto.createHash('sha256').update(resetToken).digest('hex');
+
+  // Set token and expiration (1 hour from now)
+  user.passwordResetToken = hashedToken;
+  user.passwordResetExpires = new Date(Date.now() + 60 * 60 * 1000);
+  await user.save();
+
+  // In production, send email with reset link
+  // const resetUrl = `${process.env.CLIENT_URL}/reset-password?token=${resetToken}`;
+  // await sendResetEmail(user.email, resetUrl);
+
+  // For development, log the reset URL
+  const resetUrl = `/reset-password?token=${resetToken}`;
+  console.log('Password Reset URL:', resetUrl);
+
+  res.status(200).json({
+    message: 'If an account exists with this email, a password reset link has been sent.'
+  });
+});
+
+const resetPassword = asyncHandler(async (req, res) => {
+  const token = ensureString(req.body.token, 'Reset token', { min: 1 });
+  let password = ensureString(req.body.password, 'Password', { min: 6, max: 128 });
+
+  // Hash the token to compare with stored hash
+  const hashedToken = crypto.createHash('sha256').update(token).digest('hex');
+
+  // Find user with valid reset token
+  const user = await User.findOne({
+    passwordResetToken: hashedToken,
+    passwordResetExpires: { $gt: Date.now() }
+  });
+
+  if (!user) {
+    throw new AppError('Invalid or expired reset token.', 400);
+  }
+
+  // Update password
+  password = await getSaltedPassword(password);
+  user.password = password;
+  user.passwordResetToken = null;
+  user.passwordResetExpires = null;
+  await user.save();
+
+  res.status(200).json({
+    message: 'Password reset successfully. Please sign in with your new password.'
+  });
+});
+
 module.exports = {
   register,
   login,
-  logout
+  logout,
+  forgotPassword,
+  resetPassword
 };

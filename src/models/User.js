@@ -35,7 +35,15 @@ const userSchema = new Schema({
   communitiesJoined: [{
     type: Schema.Types.ObjectId,
     ref: 'Community'
-  }]
+  }],
+  passwordResetToken: {
+    type: String,
+    default: null
+  },
+  passwordResetExpires: {
+    type: Date,
+    default: null
+  }
 }, { timestamps: true });
 
 module.exports = mongoose.model('User', userSchema);
